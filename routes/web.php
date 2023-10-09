@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [CarController::class, 'index']);
+Route::post('/search-by-name', [CarController::class, 'searchByName']);

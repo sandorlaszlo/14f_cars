@@ -42,4 +42,9 @@ class CarController extends Controller
         ];
         return view('index', $data);
     }
+
+    function searchByName(Request $request)
+    {
+        return;
+    }
 }
