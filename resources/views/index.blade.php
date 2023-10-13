@@ -1,4 +1,10 @@
 <x-layout>
+    <div class="d-flex justify-content-around">
+        <x-form/>
+        {{-- @dd($origins) --}}
+        <x-origin proba="akarmi" :origins="$origins"/>
+    </div>
+
     <table class="table table-dark">
         <thead>
             <tr>

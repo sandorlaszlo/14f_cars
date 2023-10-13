@@ -9,6 +9,7 @@ class CarController extends Controller
 {
     private $cars;
     private $headers;
+    private $origins = array();
 
     function __construct()
     {
@@ -20,8 +21,15 @@ class CarController extends Controller
         // }
 
         $this->headers = array_keys($this->cars[0]);
-
         //dd($this->headers);
+
+        foreach ($this->cars as $car) {
+            if (!in_array($car["Origin"], $this->origins))
+            {
+                $this->origins[] = $car["Origin"];
+            }
+        }
+        // dd($this->origins);
     }
 
     function index(Request $request){
@@ -39,12 +47,46 @@ class CarController extends Controller
         $data =  [
             'cars' => $this->cars,
             'headers' => $this->headers,
+            'origins' => $this->origins,
         ];
         return view('index', $data);
     }
 
     function searchByName(Request $request)
     {
-        return;
+
+
+        // $filteredCars = array();
+        // foreach ($this->cars as $car) {
+        //     if (str_contains(strtoupper($car["Name"]),strtoupper($request->carname)))
+        //     {
+        //         $filteredCars[] = $car;
+        //         // array_push($filteredCars, $car);
+        //     }
+        // }
+
+        $filteredCars = array_filter($this->cars, function ($car) use($request) {
+            return str_contains(strtoupper($car["Name"]),strtoupper($request->carname));
+        });
+
+        $data =  [
+            'cars' => $filteredCars,
+            'headers' => $this->headers,
+            'origins' => $this->origins,
+        ];
+        return view('index', $data);
+    }
+
+    function searchByOrigin(Request $request){
+        $filteredCars = array_filter($this->cars, function ($car) use($request) {
+            return str_contains(strtoupper($car["Origin"]),strtoupper($request->origin));
+        });
+
+        $data =  [
+            'cars' => $filteredCars,
+            'headers' => $this->headers,
+            'origins' => $this->origins,
+        ];
+        return view('index', $data);
     }
 }
